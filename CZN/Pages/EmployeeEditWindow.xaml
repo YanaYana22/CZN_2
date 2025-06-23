@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:CZN"
         mc:Ignorable="d"
         Title="Редактирование сотрудника" 
-        Height="974" 
+        Height="750" 
         Width="800"
+        MinHeight="750"
         WindowStartupLocation="CenterScreen"
         Background="#FF2D2D30">
 
@@ -21,7 +22,7 @@
             <Setter Property="BorderBrush" Value="#FFABADB3"/>
             <Setter Property="IsReadOnly" Value="True"/>
         </Style>
-        
+
         <Style TargetType="CheckBox" x:Key="DisabledAdminCheckBoxStyle">
             <Setter Property="Foreground" Value="Gray"/>
             <Style.Triggers>
@@ -30,7 +31,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
         <Style TargetType="TextBox">
             <Setter Property="Background" Value="#FF3E3E42"/>
             <Setter Property="Foreground" Value="White"/>
@@ -89,13 +90,25 @@
 
         <Style TargetType="ComboBox">
             <Setter Property="Background" Value="#FF3E3E42"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="#FF3E3E42"/>
             <Setter Property="BorderBrush" Value="#FF007ACC"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        </Style>
+
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Background" Value="#FF252526"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#FF007ACC"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Style.Triggers>
+                <Trigger Property="IsHighlighted" Value="True">
+                    <Setter Property="Background" Value="#FF007ACC"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style TargetType="TabControl">
@@ -193,16 +206,17 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock Text="Фамилия:" Grid.Row="0"/>
-        <TextBox Text="{Binding LastName}" Grid.Row="1" Margin="0,0,0,10"/>
+        <TextBox Text="{Binding LastName}" Grid.Row="1" Margin="0,0,0,5"/>
 
         <TextBlock Text="Имя:" Grid.Row="2"/>
-        <TextBox Text="{Binding FirstName}" Grid.Row="3" Margin="0,0,0,10"/>
+        <TextBox Text="{Binding FirstName}" Grid.Row="3" Margin="0,0,0,5"/>
 
         <TextBlock Text="Отчество:" Grid.Row="4"/>
-        <Grid Grid.Row="5" Margin="0,0,0,10">
+        <Grid Grid.Row="5" Margin="0,0,0,5">
             <TextBox Text="{Binding MiddleName}" Name="txtMiddleName"/>
             <TextBlock Text="*необязательно" 
                        Foreground="Gray" 
@@ -215,11 +229,11 @@
         <TextBlock Text="Отдел:" Grid.Row="6"/>
         <ComboBox x:Name="cbDepartments" 
                   Grid.Row="7" 
-                  Margin="0,0,0,10"
+                  Margin="0,0,0,5"
                   DisplayMemberPath="Name"
                   SelectedValuePath="Name"
                   SelectionChanged="cbDepartments_SelectionChanged"
-                  SelectedValue="{Binding Department, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="Black"/>
+                  SelectedValue="{Binding Department, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
         <TextBlock Text="Должность:" Grid.Row="8"/>
         <ComboBox x:Name="cbPositions" 
@@ -227,84 +241,90 @@
                   Margin="0,0,0,10"
                   DisplayMemberPath="Title"
                   SelectedValuePath="Title"
-                  SelectedValue="{Binding Position, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="Black"/>
+                  SelectedValue="{Binding Position, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <TabControl Grid.Row="10">
+        <TabControl Grid.Row="10" Margin="0,5,0,5">
             <TabItem Header="Контактные данные">
-                <StackPanel Margin="5">
-                    <TextBlock Text="Внутренний телефон:"/>
-                    <TextBox Text="{Binding InternalPhone}" Margin="0,0,0,10"/>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="5">
+                    <StackPanel>
+                        <TextBlock Text="Внутренний телефон:"/>
+                        <TextBox Text="{Binding InternalPhone}" Margin="0,0,0,5"/>
 
-                    <TextBlock Text="Городской телефон:"/>
-                    <TextBox Text="{Binding CityPhone}" Margin="0,0,0,10"/>
+                        <TextBlock Text="Городской телефон:"/>
+                        <TextBox Text="{Binding CityPhone}" Margin="0,0,0,5"/>
 
-                    <TextBlock Text="Мобильный телефон:"/>
-                    <Grid Margin="0,0,0,10">
-                        <TextBox Text="{Binding MobilePhone}" Name="txtMobilePhone"/>
-                        <TextBlock Text="*необязательно" 
-                                   Foreground="Gray" 
-                                   Margin="5,0"
-                                   FontStyle="Italic"
-                                   IsHitTestVisible="False"
-                                   Visibility="{Binding ElementName=txtMobilePhone, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                    </Grid>
+                        <TextBlock Text="Мобильный телефон:"/>
+                        <Grid Margin="0,0,0,5">
+                            <TextBox Text="{Binding MobilePhone}" Name="txtMobilePhone"/>
+                            <TextBlock Text="*необязательно" 
+                                       Foreground="Gray" 
+                                       Margin="5,0"
+                                       FontStyle="Italic"
+                                       IsHitTestVisible="False"
+                                       Visibility="{Binding ElementName=txtMobilePhone, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        </Grid>
 
-                    <TextBlock Text="Email:"/>
-                    <TextBox Text="{Binding Email}" Margin="0,0,0,10"/>
+                        <TextBlock Text="Email:"/>
+                        <TextBox Text="{Binding Email}" Margin="0,0,0,5"/>
 
-                    <TextBlock Text="Примечание:"/>
-                    <Grid Margin="0,0,0,10">
-                        <TextBox Text="{Binding Notes}" 
-                                 AcceptsReturn="True" 
-                                 Height="60" 
-                                 Name="txtNotes"/>
-                        <TextBlock Text="*необязательно" 
-                                   Foreground="Gray" 
-                                   Margin="5,5"
-                                   FontStyle="Italic"
-                                   IsHitTestVisible="False"
-                                   Visibility="{Binding ElementName=txtNotes, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                    </Grid>
-                </StackPanel>
+                        <TextBlock Text="Примечание:"/>
+                        <Grid Margin="0,0,0,5">
+                            <TextBox Text="{Binding Notes}" 
+                                     AcceptsReturn="True" 
+                                     Height="60" 
+                                     Name="txtNotes"/>
+                            <TextBlock Text="*необязательно" 
+                                       Foreground="Gray" 
+                                       Margin="5,5"
+                                       FontStyle="Italic"
+                                       IsHitTestVisible="False"
+                                       Visibility="{Binding ElementName=txtNotes, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
         </TabControl>
 
         <Border Grid.Row="11" 
                 Background="#FF252526" 
                 BorderBrush="#FF007ACC" 
-                BorderThickness="1,0,1,0" 
-                CornerRadius="5"
-                Padding="5"
-                Margin="0,10,0,0">
-            <StackPanel>
-                <TextBlock Text="Административные права" 
-                           Foreground="White" 
-                           FontWeight="Bold"
-                           Margin="0,0,0,5"/>
+                BorderThickness="1,0,1,1" 
+                CornerRadius="0,0,5,5"
+                Padding="0"
+                Margin="0,5,0,0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="5">
+                <StackPanel>
+                    <TextBlock Text="Административные права" 
+                               Foreground="White" 
+                               FontWeight="Bold"
+                               Margin="0,0,0,5"/>
 
-                <CheckBox x:Name="chkIsAdmin" 
-                          Style="{StaticResource DisabledAdminCheckBoxStyle}"
-                          Content="Назначить администратором" 
-                          Margin="5,0,5,5"
-                          IsChecked="{Binding IsAdmin}"
-                          IsEnabled="{Binding CanChangeAdminStatus}"
-          ToolTip="{Binding CanChangeAdminStatus, Converter={StaticResource BoolToTooltipConverter}}"/>
+                    <CheckBox x:Name="chkIsAdmin" 
+                              Style="{StaticResource DisabledAdminCheckBoxStyle}"
+                              Content="Назначить администратором" 
+                              Margin="5,0,5,5"
+                              IsChecked="{Binding IsAdmin}"
+                              IsEnabled="{Binding CanChangeAdminStatus}"
+                              ToolTip="{Binding CanChangeAdminStatus, Converter={StaticResource BoolToTooltipConverter}}"/>
 
-                <StackPanel x:Name="pnlAdminCredentials" Margin="5,0,5,0">
-                    <TextBlock Text="Логин:"/>
-                    <TextBox x:Name="txtUsername" Margin="0,0,0,5" Text="{Binding Username}"/>
-                    <TextBlock Text="Пароль:"/>
-                    <PasswordBox x:Name="txtPassword" Margin="0,0,0,10" Height="30" Background="#FF3E3E42" BorderBrush="#FF0078D7"/>
+                    <StackPanel x:Name="pnlAdminCredentials" Margin="5,0,5,5">
+                        <TextBlock Text="Логин:"/>
+                        <TextBox x:Name="txtUsername" Margin="0,0,0,5" Text="{Binding Username}"/>
+                        <TextBlock Text="Пароль:"/>
+                        <PasswordBox x:Name="txtPassword" Margin="0,0,0,5" Height="30" Background="#FF3E3E42" BorderBrush="#FF0078D7"/>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
+            </ScrollViewer>
         </Border>
 
-        <StackPanel Grid.Row="10" 
+        <StackPanel Grid.Row="12" 
                     Orientation="Horizontal" 
-                    HorizontalAlignment="Right" Margin="0,395,10,46" Grid.RowSpan="2">
+                    HorizontalAlignment="Right" 
+                    Margin="0,10,0,0">
             <Button Content="Сохранить" 
                     Width="100" 
-                    Click="btnSave_Click"/>
+                    Click="btnSave_Click"
+                    Margin="0,0,5,0"/>
             <Button Content="Отмена" 
                     Width="100" 
                     Click="btnCancel_Click"/>
